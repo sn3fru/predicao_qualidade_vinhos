@@ -51,9 +51,7 @@ class Prediction(Resource):
 
 		try:
 			variables = variables.split("-")
-			features = []
-			for feat in variables:
-				features.append(float(feat))
+			features = [float(feat) for feat in variables]
 		except:
 			return jsonify('Impossible convert to float')
 
@@ -63,7 +61,7 @@ class Prediction(Resource):
 
 		cols_name = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar', 'chlorides', 'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density', 'pH', 'sulphates', 'alcohol', 'type_Red', 'type_White']
 		X = pd.DataFrame(np.array(features).reshape(1,13), columns=cols_name)
-		
+
 		model_loaded = openpkl(r'.\models\model.pkl')
 
 		msg = model_loaded.predict(X)
